@@ -43,15 +43,16 @@ https://github.com/andriiolshevskyi7-hash/alderwood-splash. Гра — Godot 4 (
    встанови (додай або заміни):
    ```ini
    boot_splash/show_image=false
-   boot_splash/bg_color=Color(0.0627451, 0.0784314, 0.0941176, 1)
+   boot_splash/bg_color=Color(1, 0.823529, 0.247059, 1)
    ```
-   Це колір `#101418` — фон заставки, щоб при запуску не було спалаху іншого кольору.
+   Це колір `#FFD23F` — фон заставки, щоб при запуску не було спалаху іншого кольору.
    Не чіпай інші налаштування `project.godot`.
 
 4. **Перевір, що збірка не зламалась.**
    - `export_presets.cfg`: якщо `export_filter` не `"all_resources"` (наприклад, `"resources"`
      чи `"scenes"`), додай файли аддона (і сцену-обгортку, якщо є) до списку експорту;
-     переконайся, що `include_filter`/`exclude_filter` не відсікають `addons/alderwood_splash/*`.
+     переконайся, що `include_filter`/`exclude_filter` не відсікають `addons/alderwood_splash/*`
+     (зокрема шрифт `fonts/*.ttf` і `leaf.svg`).
      Більше нічого в пресетах не змінюй (ключі, підписи, пакет — не чіпати).
    - Workflow-и в `.github/workflows/`: перевір, що вони експортують гру з `project.godot`
      без жорстко прописаної головної сцени, і що перед експортом відбувається імпорт ресурсів
@@ -70,5 +71,16 @@ https://github.com/andriiolshevskyi7-hash/alderwood-splash. Гра — Godot 4 (
 `Add Alderwood splash v<VERSION>` і коротко звітуй, що змінено (main_scene, next_scene,
 boot_splash, export_presets/CI) і яку версію заставки встановлено.
 
-**Оновлення заставки в майбутньому:** повтори крок 1 (папка перезаписується повністю),
-сцену-обгортку і `project.godot` не чіпай, якщо в новій версії не сказано інакше.
+## Оновлення заставки в грі, де вона вже є
+
+Якщо в грі вже є `addons/alderwood_splash` (перевір `addons/alderwood_splash/VERSION`), виконай замість
+кроків вище:
+
+1. Заміни папку `addons/alderwood_splash` новою версією командами з кроку 1 (стару папку
+   видали повністю, не копіюй поверх — інакше лишаться видалені файли старої версії).
+2. Онови `application/boot_splash/bg_color` у `project.godot` на фон нової версії
+   (з v1.1.0: `boot_splash/bg_color=Color(1, 0.823529, 0.247059, 1)`, тобто `#FFD23F`);
+   переконайся, що `boot_splash/show_image=false`.
+3. НЕ чіпай `alderwood_splash_main.tscn` гри (сцену-обгортку з `next_scene`) і `run/main_scene`.
+4. Виконай перевірки з кроку 4 і закоміть як `Update Alderwood splash to v<VERSION>`,
+   вказавши в звіті стару й нову версію.
